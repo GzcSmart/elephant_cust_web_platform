@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.BalanceInfoMapper">
+    <resultMap id="balanceMap" type="com.hcm.springbootdemo.entity.BalanceInfo">
+        <result column="id" property="id"/>
+        <result column="org_id" property="orgId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="org_balance" property="orgBalance"/>
+        <result column="org_status" property="orgStatus"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="child_org_id" property="childOrgId"/>
+    </resultMap>
+    <sql id="_columns">
+        id
+        , org_id, org_name, org_balance, org_status, customer_id, child_org_id
+    </sql>
+    <select id="balanceById" parameterType="string" resultMap="balanceMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM org_balance_info WHERE customer_id = #{customerId}
+    </select>
+</mapper>

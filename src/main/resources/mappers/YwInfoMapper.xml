@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.YwInfoMapper">
+    <resultMap id="ywByCustomerMap" type="com.hcm.springbootdemo.entity.YwInfo">
+        <result column="system_yw_id" property="systemYwId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="yw_name" property="ywName"/>
+        <result column="customer_yw_id" property="customerYwId"/>
+        <result column="customer_yw_pwd" property="customerYwPwd"/>
+        <result column="status" property="status"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+    <sql id="_columns">
+        system_yw_id
+        , category_name, yw_name, customer_yw_id, customer_yw_pwd, status, customer_id, parent_id
+    </sql>
+    <select id="ywByCustomerId" parameterType="string" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info WHERE customer_id = #{customerId}
+    </select>
+    <update id="updateYwInfo" parameterType="int">
+        update yw_info
+        set status = #{status}
+        where system_yw_id = #{systemYwId}
+    </update>
+    <select id="getYwInfoList" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info WHERE customer_id = #{customerId} LIMIT #{size}
+    </select>
+    <select id="getAllYwInfoList" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info
+        <where>
+            <if test="parentId != null and parentId != -1">
+                parent_id = #{parentId}
+            </if>
+            <if test="customerYwId != null and customerYwId != ''">
+                and customer_yw_id = #{customerYwId}
+            </if>
+        </where>
+    </select>
+    <select id="selAllYwInfoList" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info
+    </select>
+    <select id="ywByCustomerOptionId" parameterType="string" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info
+        <where>
+            <if test="customerYwId != null and customerYwId != ''">
+                customer_yw_id = #{customerYwId}
+            </if>
+        </where>
+    </select>
+    <select id="selConditionYw" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info
+        <where>
+            <if test="parentId != null and parentId != -1">
+                parent_id = #{parentId}
+            </if>
+            <if test="ywName != null and ywName != ''">
+                and yw_name LIKE CONCAT('%',#{ywName},'%')
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="selConditionId" resultMap="ywByCustomerMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM yw_info
+        <where>
+            <if test="parentId != null and parentId != -1">
+                parent_id = #{parentId}
+            </if>
+        </where>
+    </select>
+    <select id="getTotalNum" resultType="int">
+        SELECT count(*) FROM yw_info
+        <where>
+            <if test="parentId != null and parentId != -1">
+                parent_id = #{parentId}
+            </if>
+            <if test="ywName != null and ywName != ''">
+                and yw_name LIKE CONCAT('%',#{ywName},'%')
+            </if>
+        </where>
+    </select>
+    <update id="updPwd">
+        update yw_info
+        set customer_yw_pwd = #{customerYwPwd}
+        where system_yw_id = #{systemYwId}
+    </update>
+</mapper>

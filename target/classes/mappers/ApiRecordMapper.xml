@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.ApiRecordMapper">
+    <resultMap id="apiRecordMap" type="com.hcm.springbootdemo.entity.ApiRecord">
+        <id column="id" property="id"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_yw_id" property="customerYwId"/>
+        <result column="api_total" property="apiTotal"/>
+        <result column="success_times" property="successTimes"/>
+        <result column="unknown_times" property="unknownTimes"/>
+        <result column="fail_times" property="failTimes"/>
+        <result column="total_cost" property="totalCost"/>
+        <result column="test_cost" property="testCost"/>
+        <result column="back_cost" property="backCost"/>
+        <result column="actual_cost" property="actualCost"/>
+        <result column="settle_total_price" property="settleTotalPrice"/>
+        <result column="settle_back_price" property="settleBackPrice"/>
+        <result column="org_id" property="orgId"/>
+        <result column="statement_date" property="statementDate"/>
+    </resultMap>
+    <sql id="_columns">
+        id
+        , customer_id, customer_yw_id, api_total, success_times, unknown_times, fail_times, total_cost, test_cost, back_cost, actual_cost, settle_total_price, settle_back_price, org_id, statement_date
+    </sql>
+    <select id="findAllRecord" parameterType="java.lang.String" resultMap="apiRecordMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM api_record
+        <where>
+            customer_id = #{customerId}
+            <if test="statementDate != null and statementDate != ''">
+                and date_format(statement_date,'%Y-%m') = #{statementDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="findIdRecord" resultType="com.hcm.springbootdemo.entity.ApiRecord">
+        SELECT *
+        FROM api_record
+        where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.LoginMapper">
+    <sql id="Base_Column_List">
+        customer_id
+        , customer_name, password, customer_tel, email, mobile, status, balance, last_operator_id, head_img_url, audit_status, cash_back_status, cash_free_audit, org_name
+    </sql>
+    <select id="login" resultType="customerInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from customer_info where customer_name = #{customerName} and password = #{password}
+    </select>
+    <select id="phoneLogin" resultType="customerInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from customer_info where customer_tel = #{customerTel}
+    </select>
+    <insert id="insUser" parameterType="com.hcm.springbootdemo.entity.CustomerInfo">
+        insert into customer_info (customer_id, customer_name, password, customer_tel, email, mobile, status, balance,
+                                   last_operator_id, head_img_url, audit_status, cash_back_status, cash_free_audit,
+                                   org_name)
+        values (#{customerId}, #{customerName}, #{password}, #{customerTel}, #{email}, #{mobile}, #{status}, #{balance},
+                #{lastOperatorId}, #{headImgUrl}, #{auditStatus}, #{cashBackStatus}, #{cashFreeAudit}, #{orgName})
+    </insert>
+</mapper>

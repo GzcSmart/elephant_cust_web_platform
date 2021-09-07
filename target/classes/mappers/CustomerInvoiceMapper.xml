@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.CustomerInvoiceMapper">
+    <sql id="_columns">
+        id
+        , customer_id, invoice_title, tax_num, bank_name, bank_num, bus_lic_url, cust_lic_url, other_lic_url,
+        mobile, address, remark, status, tax_type, org_id, org_name
+    </sql>
+
+    <resultMap id="resultMap" type="com.hcm.springbootdemo.entity.CustomerInvoice"/>
+
+    <select id="getInvoiceByCustomerId" resultMap="resultMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM customer_invoice
+        WHERE customer_id = #{customerId}
+    </select>
+
+    <update id="updateInvoice" parameterType="com.hcm.springbootdemo.entity.CustomerInvoice">
+        UPDATE customer_invoice
+        SET invoice_title = #{invoice.invoiceTitle},
+            tax_num       = #{invoice.taxNum},
+            bank_name     = #{invoice.bankName},
+            bank_num      = #{invoice.bankNum},
+            mobile        = #{invoice.mobile},
+            address       = #{invoice.address},
+            remark        = #{invoice.remark},
+            status        = #{invoice.status},
+            bus_lic_url   = #{invoice.busLicUrl},
+            cust_lic_url  = #{invoice.custLicUrl},
+            other_lic_url = #{invoice.otherLicUrl},
+            tax_type      = #{invoice.taxType},
+            org_id        = #{invoice.orgId},
+            org_name      = #{invoice.orgName}
+        WHERE customer_id = #{invoice.customerId}
+    </update>
+
+    <insert id="addInvoice" parameterType="com.hcm.springbootdemo.entity.CustomerInvoice">
+        INSERT INTO customer_invoice
+        (customer_id, invoice_title, tax_num, bank_name, bank_num, mobile, address, bus_lic_url,
+         cust_lic_url, other_lic_url, remark, status, tax_type, org_id, org_name)
+        VALUES (#{customerId}, #{invoiceTitle}, #{taxNum},
+                #{bankName}, #{bankNum}, #{mobile}, #{address},
+                #{busLicUrl}, #{custLicUrl}, #{otherLicUrl},
+                #{remark}, #{status}, #{taxType}, #{orgId}, #{orgName})
+    </insert>
+</mapper>

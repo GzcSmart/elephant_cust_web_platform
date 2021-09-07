@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.CustomerAddressMapper">
+    <resultMap id="addressMap" type="com.hcm.springbootdemo.entity.CustomerAddress">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="area" property="area"/>
+        <result column="detailed_area" property="detailedArea"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="postal_code" property="postalCode"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="is_default_address" property="isDefaultAddress"/>
+    </resultMap>
+    <select id="selAllAddress" resultMap="addressMap">
+        select id,
+               name,
+               area,
+               detailed_area,
+               phone,
+               telephone,
+               postal_code,
+               customer_id,
+               is_default_address
+        from customer_address
+        where customer_id = #{customerId}
+    </select>
+    <insert id="insAddress" parameterType="com.hcm.springbootdemo.entity.CustomerAddress">
+        insert into customer_address (id, name, area, detailed_area, phone, telephone, postal_code, customer_id,
+                                      is_default_address)
+        values (#{id}, #{name}, #{area}, #{detailedArea}, #{phone}, #{telephone}, #{postalCode}, #{customerId},
+                #{isDefaultAddress})
+    </insert>
+    <update id="updAddress" parameterType="com.hcm.springbootdemo.entity.CustomerAddress">
+        UPDATE customer_address
+        SET name               = #{name},
+            area               = #{area},
+            detailed_area      = #{detailedArea},
+            phone              = #{phone},
+            telephone          = #{telephone},
+            postal_code        = #{postalCode},
+            customer_id        = #{customerId},
+            is_default_address = #{isDefaultAddress}
+        WHERE id = #{id}
+    </update>
+    <select id="selIdAddress" resultType="com.hcm.springbootdemo.entity.CustomerAddress">
+        select id,
+               name,
+               area,
+               detailed_area,
+               phone,
+               telephone,
+               postal_code,
+               customer_id,
+               is_default_address
+        from customer_address
+        where id = #{id}
+    </select>
+    <delete id="delIdAddress" parameterType="Integer">
+        delete
+        from customer_address
+        where id = #{id}
+    </delete>
+</mapper>

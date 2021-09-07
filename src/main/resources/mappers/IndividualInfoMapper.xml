@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.IndividualInfoMapper">
+    <resultMap id="addIndividualMap" type="com.hcm.springbootdemo.entity.IndividualInfo">
+        <result column="customer_id" property="customerId"/>
+        <result column="org_id" property="orgId"/>
+        <result column="unit_type" property="unitType"/>
+        <result column="org_name" property="orgName"/>
+        <result column="register_code" property="registerCode"/>
+        <result column="org_address" property="orgAddress"/>
+        <result column="tel_phone" property="telPhone"/>
+        <result column="business_scope" property="businessScope"/>
+        <result column="business_term" property="businessTerm"/>
+        <result column="temp_phone" property="tempPhone"/>
+        <result column="recommender" property="recommender"/>
+        <result column="org_img" property="orgImg"/>
+        <result column="audit_status" property="auditStatus"/>
+    </resultMap>
+    <insert id="addIndividualInfo" parameterType="com.hcm.springbootdemo.entity.IndividualInfo">
+        insert into individual_info (customer_id, org_id, unit_type, org_name, register_code, org_address, tel_phone,
+                                     business_scope, business_term, temp_phone, recommender, org_img, audit_status)
+        values (#{customerId}, #{orgId}, #{unitType}, #{orgName}, #{registerCode}, #{orgAddress}, #{telPhone},
+                #{businessScope}, #{businessTerm}, #{tempPhone}, #{recommender}, #{orgImg}, #{auditStatus})
+    </insert>
+    <sql id="_columns">
+        customer_id
+        , org_id, unit_type, org_name, register_code, org_address, tel_phone, business_scope, business_term, temp_phone, recommender, org_img, audit_status
+    </sql>
+    <select id="addIndividualById" parameterType="string" resultType="com.hcm.springbootdemo.entity.IndividualInfo">
+        SELECT
+        <include refid="_columns"/>
+        FROM individual_info WHERE customer_id = #{customerId}
+    </select>
+    <select id="selStatus" parameterType="string" resultType="int">
+        SELECT audit_status
+        from individual_info
+        WHERE customer_id = #{customerId}
+    </select>
+    <update id="updateindividualInfo" parameterType="com.hcm.springbootdemo.entity.IndividualInfo">
+        update individual_info
+        set unit_type      = #{unitType},
+            org_name       = #{orgName},
+            register_code  = #{registerCode},
+            org_address    = #{orgAddress},
+            tel_phone      = #{telPhone},
+            business_scope = #{businessScope},
+            business_term  = #{businessTerm},
+            temp_phone     = #{tempPhone},
+            recommender    = #{recommender},
+            org_img        = #{orgImg},
+            audit_status   = #{auditStatus}
+        where customer_id = #{customerId}
+    </update>
+</mapper>

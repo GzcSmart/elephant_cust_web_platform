@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.YwInfoCategoryMapper">
+    <resultMap id="ywCategoryMap" type="com.hcm.springbootdemo.entity.YwInfoCategory">
+        <result column="id" property="id"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="is_parent" property="isParent"/>
+    </resultMap>
+    <select id="selAllYwCategory" resultMap="ywCategoryMap">
+        select id, category_name, parent_id, is_parent
+        from yw_info_category
+    </select>
+    <select id="selYwCategoryById" resultMap="ywCategoryMap">
+        select id, category_name, parent_id, is_parent from yw_info_category
+        <where>
+            <if test="id != null and id != -1">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>

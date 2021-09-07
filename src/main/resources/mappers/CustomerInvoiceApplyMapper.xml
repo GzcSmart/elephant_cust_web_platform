@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.CustomerInvoiceApplyMapper">
+    <cache eviction="LRU" flushInterval="200000" readOnly="true" size="1024"/>
+    <resultMap id="invoiceApplyMap" type="com.hcm.springbootdemo.entity.CustomerInvoiceApply">
+        <result column="invoice_apply_id" property="invoiceApplyId" jdbcType="VARCHAR"/>
+        <result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+        <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR"/>
+        <result column="bill_id" property="billId" jdbcType="VARCHAR"/>
+        <result column="invoice_bank" property="invoiceBank" jdbcType="VARCHAR"/>
+        <result column="bank_card_number" property="bankCardNumber" jdbcType="VARCHAR"/>
+        <result column="taxpayer_qualification" property="taxpayerQualification" jdbcType="VARCHAR"/>
+        <result column="tax_register_number" property="taxRegisterNumber" jdbcType="VARCHAR"/>
+        <result column="invoice_type" property="invoiceType" jdbcType="INTEGER"/>
+        <result column="invoice_category" property="invoiceCategory" jdbcType="VARCHAR"/>
+        <result column="invoice_amount" property="invoiceAmount" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="received_address" property="receivedAddress" jdbcType="VARCHAR"/>
+        <result column="received_phone" property="receivedPhone" jdbcType="VARCHAR"/>
+        <result column="ticketing_type" property="ticketingType" jdbcType="INTEGER"/>
+        <result column="need_bill" property="needBill" jdbcType="INTEGER"/>
+        <result column="stamp_type" property="stampType" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="INTEGER"/>
+        <result column="auditor" property="auditor" jdbcType="VARCHAR"/>
+        <result column="auditor_id" property="auditorId" jdbcType="VARCHAR"/>
+        <result column="auditor_department" property="auditorDepartment" jdbcType="VARCHAR"/>
+        <result column="audit_time" property="auditTime" jdbcType="VARCHAR"/>
+        <result column="audit_remark" property="auditRemark" jdbcType="VARCHAR"/>
+        <result column="org_mobile" property="orgMobile" jdbcType="VARCHAR"/>
+        <result column="org_address" property="orgAddress" jdbcType="VARCHAR"/>
+        <result column="insert_time" property="insertTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="customer_yw_id" property="customerYwId" jdbcType="VARCHAR"/>
+        <result column="yw_category" property="ywCategory" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="_columns">
+        invoice_apply_id
+        , org_id, org_name, invoice_title, bill_id, invoice_bank, bank_card_number, taxpayer_qualification, tax_register_number, invoice_type, invoice_category, invoice_amount, receiver,
+        received_address, received_phone, ticketing_type, need_bill, stamp_type, audit_status, auditor, auditor_id, auditor_department, audit_time, audit_remark, org_mobile, org_address, insert_time, update_time, customer_yw_id, yw_category
+    </sql>
+    <select id="selAllInvoiceApply" resultMap="invoiceApplyMap">
+        select
+        <include refid="_columns"/>
+        from customer_invoice_apply
+    </select>
+    <select id="selConditionApply" resultMap="invoiceApplyMap">
+        select
+        <include refid="_columns"/>
+        from customer_invoice_apply
+        <where>
+            <if test="invoiceTitle != null and invoiceTitle != ''">
+                invoice_title like CONCAT('%',#{invoiceTitle},'%')
+            </if>
+            <if test="taxRegisterNumber != null and taxRegisterNumber != ''">
+                and tax_register_number like CONCAT('%',#{taxRegisterNumber},'%')
+            </if>
+            <if test="invoiceCategory != null and invoiceCategory != ''">
+                and invoice_category like CONCAT('%',#{invoiceCategory},'%')
+            </if>
+            <if test="invoiceType != null and invoiceType != -1">
+                and invoice_type = #{invoiceType}
+            </if>
+            <if test="auditStatus != null and auditStatus != -1">
+                and audit_status = #{auditStatus}
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+    <insert id="insInvoiceApply" parameterType="com.hcm.springbootdemo.entity.CustomerInvoiceApply">
+        INSERT INTO customer_invoice_apply
+        (invoice_apply_id, org_id, org_name, invoice_title, bill_id, yw_category, invoice_bank, bank_card_number,
+         taxpayer_qualification, tax_register_number, invoice_type, invoice_category, invoice_amount, receiver,
+         received_address, received_phone, ticketing_type, need_bill, stamp_type, audit_status, auditor, auditor_id,
+         auditor_department, audit_time, audit_remark, org_mobile, org_address, insert_time, update_time,
+         customer_yw_id)
+        VALUES (#{invoiceApplyId}, #{orgId}, #{orgName},
+                #{invoiceTitle}, #{billId}, #{ywCategory}, #{invoiceBank},
+                #{bankCardNumber}, #{taxpayerQualification}, #{taxRegisterNumber},
+                #{invoiceType}, #{invoiceCategory}, #{invoiceAmount},
+                #{receiver}, #{receivedAddress}, #{receivedPhone},
+                #{ticketingType}, #{needBill}, #{stampType},
+                #{auditStatus}, #{auditor}, #{auditorId},
+                #{auditorDepartment}, #{auditTime}, #{auditRemark}, #{orgMobile},
+                #{orgAddress}, #{insertTime}, #{updateTime}, #{customerYwId})
+    </insert>
+    <update id="updInvoiceApply" parameterType="com.hcm.springbootdemo.entity.CustomerInvoiceApply">
+        UPDATE customer_invoice_apply
+        SET org_name               = #{orgName},
+            invoice_title          = #{invoiceTitle},
+            bill_id                = #{billId},
+            yw_category            = #{ywCategory},
+            invoice_bank           = #{invoiceBank},
+            bank_card_number       = #{bankCardNumber},
+            taxpayer_qualification = #{taxpayerQualification},
+            tax_register_number    = #{taxRegisterNumber},
+            invoice_type           = #{invoiceType},
+            invoice_category       = #{invoiceCategory},
+            invoice_amount         = #{invoiceAmount},
+            receiver               = #{receiver},
+            received_address       = #{receivedAddress},
+            received_phone         = #{receivedPhone},
+            ticketing_type         = #{ticketingType},
+            need_bill              = #{needBill},
+            stamp_type             = #{stampType},
+            audit_status           = #{auditStatus},
+            auditor                = #{auditor},
+            auditor_id             = #{auditorId},
+            auditor_department     = #{auditorDepartment},
+            audit_time             = #{auditTime},
+            audit_remark           = #{auditRemark},
+            org_mobile             = #{orgMobile},
+            org_address            = #{orgAddress},
+            insert_time            = #{insertTime},
+            update_time            = #{updateTime},
+            customer_yw_id         = #{customerYwId}
+        WHERE org_id = #{orgId}
+    </update>
+    <select id="selAllInvoiceApplyById" resultType="com.hcm.springbootdemo.entity.CustomerInvoiceApply">
+        select
+        <include refid="_columns"/>
+        from customer_invoice_apply where invoice_apply_id = #{invoiceApplyId}
+    </select>
+    <select id="getInvoiceTotal" resultType="int">
+        select count(*) from customer_invoice_apply
+        <where>
+            <if test="invoiceTitle != null and invoiceTitle != ''">
+                invoice_title like concat('%',#{invoiceTitle},'%')
+            </if>
+            <if test="taxRegisterNumber != null and taxRegisterNumber != ''">
+                and tax_register_number like concat('%',#{taxRegisterNumber},'%')
+            </if>
+            <if test="invoiceCategory != null and invoiceCategory != ''">
+                and invoice_category like concat('%',#{invoiceCategory},'%')
+            </if>
+            <if test="invoiceType != null and invoiceType != -1">
+                and invoice_type = #{invoiceType}
+            </if>
+            <if test="auditStatus != null and auditStatus != -1">
+                and audit_status = #{auditStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

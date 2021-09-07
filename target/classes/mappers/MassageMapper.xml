@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.MessageMapper">
+    <resultMap id="messageMap" type="com.hcm.springbootdemo.entity.Message">
+        <result column="id" property="id"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="msg_title" property="msgTitle"/>
+        <result column="msg_type" property="msgType"/>
+        <result column="status" property="status"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="insert_time" property="insertTime"/>
+        <result column="msg" property="msg"/>
+    </resultMap>
+    <select id="selAllMessage" resultMap="messageMap">
+        select id,
+               customer_id,
+               msg_title,
+               msg_type,
+               status,
+               is_delete,
+               created_by,
+               update_time,
+               insert_time,
+               msg
+        from message
+        where customer_id = #{customerId}
+          and is_delete = 0 limit #{start}
+            , #{pageSize}
+    </select>
+    <select id="selByIdMessage" resultMap="messageMap">
+        select id,
+               customer_id,
+               msg_title,
+               msg_type,
+               status,
+               is_delete,
+               created_by,
+               update_time,
+               insert_time,
+               msg
+        from message
+        where id = #{id}
+    </select>
+    <update id="delMessage">
+        update message
+        set is_delete = #{isDelete}
+        where id = #{id}
+    </update>
+    <update id="readMessage">
+        update message
+        set status = #{status}
+        where id = #{id}
+    </update>
+    <select id="getMassageTotal" resultType="int">
+        select count(*)
+        from message
+        where customer_id = #{customerId}
+          and is_delete = 0
+    </select>
+</mapper>

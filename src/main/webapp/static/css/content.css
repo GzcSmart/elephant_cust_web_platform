@@ -1,0 +1,16 @@
+@charset "utf-8";
+em{
+    font-wright:bold;
+    padding-right:1em;
+}
+em.error{
+    background-image:url(../elephant_images/unchecked.gif);
+    background-repeat:no-repeat;
+    padding-left:20px;
+    margin-left:5px;
+}
+em.success{
+    background:url(../elephant_images/checked.gif) no-repeat;
+    padding-left:20px;
+    margin-left:5px;
+}

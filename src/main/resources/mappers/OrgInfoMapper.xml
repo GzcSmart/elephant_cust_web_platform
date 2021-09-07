@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.OrgInfoMapper">
+    <resultMap id="orgInfoResultMap" type="com.hcm.springbootdemo.entity.OrgInfo">
+        <id column="sn" property="sn"/>
+        <result column="org_id" property="orgId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="org_level" property="orgLevel"/>
+        <result column="org_domain" property="orgDomain"/>
+        <result column="max_ext" property="maxExt"/>
+        <result column="org_status" property="orgStatus"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="payType" property="payType"/>
+    </resultMap>
+    <sql id="_columns">
+        sn
+        , org_id, customer_id, org_name, org_level, org_domain, max_ext, org_status, del_status, create_time, update_time, audit_status, pay_type
+    </sql>
+    <select id="getOrgInfoByCustomerId" parameterType="string" resultMap="orgInfoResultMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM org_info WHERE customer_id = #{customerId} AND del_status = 0
+    </select>
+</mapper>

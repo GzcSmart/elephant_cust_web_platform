@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcm.springbootdemo.mappers.OrgInfoAuditMapper">
+    <resultMap id="orgInfoAuditResultMap" type="com.hcm.springbootdemo.entity.OrgInfo">
+        <id column="sn" property="sn"/>
+        <result column="org_id" property="orgId"/>
+        <result column="unit_type" property="unitType"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="org_name" property="orgName"/>
+        <result column="register_code" property="registerCode"/>
+        <result column="org_code" property="orgCode"/>
+        <result column="org_level" property="orgLevel"/>
+        <result column="org_domain" property="orgDomain"/>
+        <result column="org_address" property="orgAddress"/>
+        <result column="org_scope" property="orgScope"/>
+        <result column="due_date" property="dueDate"/>
+        <result column="max_ext" property="maxExt"/>
+        <result column="org_status" property="orgStatus"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="tel_phone" property="telPhone"/>
+        <result column="temp_phone" property="tempPhone"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="admin_id" property="adminId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="_columns">
+        sn
+        ,org_id,unit_type,customer_id,org_name,register_code,org_code,org_level,org_domain,org_address,org_scope,
+        due_date,max_ext,org_status,del_status,tel_phone,temp_phone,audit_status,admin_id,create_time,update_time
+    </sql>
+
+    <select id="getOrgInfoAuditById" parameterType="string" resultMap="orgInfoAuditResultMap">
+        SELECT
+        <include refid="_columns"/>
+        FROM org_info WHERE customer_id = #{customerId}
+    </select>
+</mapper>
